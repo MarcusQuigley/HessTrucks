@@ -11,7 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  solutionPath: 'src\\HessTrucks.sln'
+  solutionPath: '**/*.sln'
 
 steps:
 - script: dotnet build $(solutionPath) --configuration $(buildConfiguration)
