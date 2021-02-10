@@ -14,5 +14,13 @@ variables:
   solutionPath: '**/*.sln'
 
 steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
 - script: dotnet build $(solutionPath) --configuration $(buildConfiguration)
   displayName: 'dotnet build $(solutionPath) $(buildConfiguration)'
+
+
