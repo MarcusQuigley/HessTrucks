@@ -6,8 +6,10 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-18.04'
+#pool:
+# vmImage: 'ubuntu-18.04'
+# setup local agent
+pool: default
 
 variables:
   buildConfiguration: 'Release'
