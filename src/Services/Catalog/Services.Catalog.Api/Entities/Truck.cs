@@ -17,7 +17,7 @@ namespace Services.Catalog.Api.Entities
         public int Year { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public decimal PreviousPrice { get; set; }
+        public decimal? PreviousPrice { get; set; }
         public int Quantity { get; set; }
         public bool Hidden { get; set; }
         public bool Damaged { get; set; }
