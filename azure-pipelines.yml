@@ -13,7 +13,7 @@ pool: default
 
 variables:
   buildConfiguration: 'Release'
-  solutionPath: '**/*.sln'
+  solutionPath: '**\*.sln'
 
 steps:
 - task: DotNetCoreCLI@2
