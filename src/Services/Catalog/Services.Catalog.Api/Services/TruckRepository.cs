@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Services.Catalog.Api.DbContexts;
 using Services.Catalog.Api.Entities;
 using System;
@@ -11,10 +12,12 @@ namespace Services.Catalog.Api.Services
     public class TruckRepository : ITruckRepository
     {
         private readonly CatalogDbContext _context;
+        private readonly ILogger<TruckRepository> _logger;
 
-        public TruckRepository(CatalogDbContext context)
+        public TruckRepository(CatalogDbContext context, ILogger<TruckRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         async Task<bool> TruckExists(Guid truckId)
@@ -25,7 +28,10 @@ namespace Services.Catalog.Api.Services
         public async Task AddTruck(Truck truck)
         {
             if (truck == null)
+            {
+                _logger.LogError("Truck to add is null");
                 throw new ArgumentNullException(nameof(truck));
+            }
             await _context.Trucks.AddAsync(truck);
         }
 
