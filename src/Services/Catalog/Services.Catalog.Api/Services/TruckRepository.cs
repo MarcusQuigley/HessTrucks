@@ -37,6 +37,8 @@ namespace Services.Catalog.Api.Services
 
         public async Task<Truck> GetTruckById(Guid truckId)
         {
+            if (truckId == Guid.Empty)
+                throw new ArgumentException(nameof(truckId));
             return await _context.Trucks.Include(t => t.Categories)
                                         .Include(t => t.Photos)
                                         .AsSplitQuery()
@@ -67,7 +69,6 @@ namespace Services.Catalog.Api.Services
 
         public void UpdateTruck(Truck truck)
         {
-            // throw new NotImplementedException();
         }
     }
 }

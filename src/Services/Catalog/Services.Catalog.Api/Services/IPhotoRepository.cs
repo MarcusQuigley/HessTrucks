@@ -10,7 +10,7 @@ namespace Services.Catalog.Api.Services
     {
         Task<IEnumerable<Photo>> GetPhotosByTruckId(Guid truckId);
         Task AddPhoto(Photo photo);
-        Task UpdatePhoto(Photo photo);
+        void UpdatePhoto(Photo photo);
         Task<bool> SaveChanges();
     }
 }
