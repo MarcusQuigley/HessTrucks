@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /HessTrucks/SQLQuery1.sql
+/SQLQuery1.sql

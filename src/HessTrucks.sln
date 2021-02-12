@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Catalog.Api", "Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorClient.Web", "Frontends\BlazorClient.Web\BlazorClient.Web.csproj", "{7AF3A675-37B5-4C8F-83F9-89EE36F291A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Catalog.Api.Tests", "Services\Catalog\tests\Services.Catalog.Api.Tests\Services.Catalog.Api.Tests.csproj", "{5AC36F8A-2067-44B7-99AC-E639512D6357}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Catalog.Api.UnitTests", "Services\Catalog\tests\Services.Catalog.Api.Tests\Services.Catalog.Api.UnitTests.csproj", "{5AC36F8A-2067-44B7-99AC-E639512D6357}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{23B19AD4-C27C-47A2-ABA8-AC16D79A5AA4}"
 	ProjectSection(SolutionItems) = preProject
@@ -55,7 +55,7 @@ Global
 		{6723D1B3-B027-42D6-A026-6FB0BB9A7522} = {623AC944-68FC-42FF-984B-3D6C26DEE573}
 		{F7A0E8C1-64D5-4EC3-A887-FC7F18A45021} = {6723D1B3-B027-42D6-A026-6FB0BB9A7522}
 		{7AF3A675-37B5-4C8F-83F9-89EE36F291A3} = {FE74EF8D-1CCA-4B09-8D44-FEF6C6F7B4DB}
-		{5AC36F8A-2067-44B7-99AC-E639512D6357} = {F6056F42-8C27-41B3-AC65-C67D870B9ADB}
+		{5AC36F8A-2067-44B7-99AC-E639512D6357} = {6723D1B3-B027-42D6-A026-6FB0BB9A7522}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C32FCDB-B8B7-4682-A3B3-AEE10F8F818A}
