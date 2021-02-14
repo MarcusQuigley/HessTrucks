@@ -34,7 +34,7 @@ namespace Services.Catalog.Api.Services
         {
             if (truckId == Guid.Empty)
             {
-                _logger.LogError("truckId to get photos for is null");
+                _logger.LogError("TruckId to get photos for is null");
                 throw new ArgumentException("truckId is empty");
             }
             return await _context.Photos.Where(p => p.TruckId == truckId)

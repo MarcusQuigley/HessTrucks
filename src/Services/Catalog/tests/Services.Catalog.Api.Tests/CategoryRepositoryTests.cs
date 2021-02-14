@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
+using Moq;
+using Microsoft.Extensions.Logging;
 
 namespace Services.Catalog.Api.UnitTests
 {
@@ -24,7 +26,8 @@ namespace Services.Catalog.Api.UnitTests
         {
             using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
             {
-                var categoryRepository = new CategoryRepository(context, null);
+                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 await Assert.ThrowsAsync<ArgumentNullException>(async () => await categoryRepository.AddCategory(null));
             }
         }
@@ -35,7 +38,8 @@ namespace Services.Catalog.Api.UnitTests
             var dbContextGuid = Guid.NewGuid();
             using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
             {
-                var categoryRepository = new CategoryRepository(context, null);
+                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 await categoryRepository.AddCategory(new Category
                 {
                     Name = "Category1",
@@ -52,7 +56,8 @@ namespace Services.Catalog.Api.UnitTests
         {
             using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
             {
-                var categoryRepository = new CategoryRepository(context, null);
+                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 var categoryId = await categoryRepository.AddCategory(new Category
                 {
                     Name = "Category1",
@@ -79,7 +84,8 @@ namespace Services.Catalog.Api.UnitTests
 
             using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
             {
-                var categoryRepository = new CategoryRepository(context, null);
+                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 var miniTrucks = await categoryRepository.GetCategoriesBySize(true);
                 Assert.Equal(3, miniTrucks.Count());
             }
@@ -88,10 +94,11 @@ namespace Services.Catalog.Api.UnitTests
         [Fact]
         public async void GetCategory_ReturnsNull_WithBadCategoryId()
         {
-            using(var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
+            using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
             {
-                var categoryRepository = new CategoryRepository(context, null);
-                var category =await categoryRepository.GetCategory(int.MinValue);
+                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
+                var category = await categoryRepository.GetCategory(int.MinValue);
                 Assert.Null(category);
             }
         }
@@ -100,18 +107,19 @@ namespace Services.Catalog.Api.UnitTests
         public async void GetCategory_ReturnsCategory_WithValidCategoryId()
         {
             var dbContextGuid = Guid.NewGuid();
-            Category expected= null;
+            Category expected = null;
             using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
             {
-               var entity= await context.Categories.AddAsync(
-                   new Category { Name = "cat1", IsMiniTruck = false });
-                   await context.SaveChangesAsync();
+                var entity = await context.Categories.AddAsync(
+                    new Category { Name = "cat1", IsMiniTruck = false });
+                await context.SaveChangesAsync();
                 expected = entity.Entity;
             }
 
             using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
             {
-                var categoryRepository = new CategoryRepository(context, null);
+                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 var actual = await categoryRepository.GetCategory(expected.CategoryId);
                 actual.Should().BeEquivalentTo(expected);
             }
@@ -135,8 +143,9 @@ namespace Services.Catalog.Api.UnitTests
 
             using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
             {
-                var categoryRepository = new CategoryRepository(context, null);
-                categoryToSave =await categoryRepository.GetCategory(categoryId);
+                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
+                categoryToSave = await categoryRepository.GetCategory(categoryId);
 
                 categoryToSave.Name = updateCategoryName;
                 categoryRepository.UpdateCategory(categoryToSave);
@@ -145,7 +154,8 @@ namespace Services.Catalog.Api.UnitTests
 
             using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
             {
-                var categoryRepository = new CategoryRepository(context, null);
+                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 var returnedCategory = await categoryRepository.GetCategory(categoryId);
                 Assert.Equal(updateCategoryName, returnedCategory.Name);
             }
@@ -156,7 +166,8 @@ namespace Services.Catalog.Api.UnitTests
         {
             using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
             {
-                var categoryRepository = new CategoryRepository(context, null);
+                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 Assert.Throws<ArgumentNullException>(() => categoryRepository.UpdateCategory(null));
             }
         }
