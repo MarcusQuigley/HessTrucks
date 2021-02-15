@@ -13,6 +13,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Services.Catalog.Api.DbContexts;
+using Services.Catalog.Api.Services;
+using AutoMapper;
+using System.Reflection;
 
 namespace Services.Catalog.Api
 {
@@ -34,6 +37,10 @@ namespace Services.Catalog.Api
                 options.UseSqlServer(Configuration.GetConnectionString("TruckDBConnectionString"))
                         .EnableSensitiveDataLogging();
             });
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             //services.AddScoped<>
             services.AddSwaggerGen(c =>
