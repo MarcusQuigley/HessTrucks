@@ -11,21 +11,32 @@ using Xunit;
 using FluentAssertions;
 using Moq;
 using Microsoft.Extensions.Logging;
+using Microsoft.Data.Sqlite;
 
 namespace Services.Catalog.Api.UnitTests
 {
     public class CategoryRepositoryTests
     {
-        private DbContextOptions<CatalogDbContext> GetDbContextOptions(Guid dbGuid) =>
-            new DbContextOptionsBuilder<CatalogDbContext>()
-                       .UseInMemoryDatabase(dbGuid.ToString())
-                       .Options;
+        //SqliteConnectionStringBuilder connectionBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+        //private DbContextOptions<CatalogDbContext> GetDbContextOptions =>
+        //    new DbContextOptionsBuilder<CatalogDbContext>()
+        //         .UseSqlite(new SqliteConnection(connectionBuilder.ToString()))
+        //         .Options;
 
         [Fact]
         public async void AddCategory_EmptyCategory_ThrowsNullException()
         {
-            using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
+            var connectionStringBuilder =
+               new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
+            using (var context = new CatalogDbContext(options))
             {
+                await context.Database.OpenConnectionAsync();
+                await context.Database.EnsureCreatedAsync();
                 Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
                 var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 await Assert.ThrowsAsync<ArgumentNullException>(async () => await categoryRepository.AddCategory(null));
@@ -35,9 +46,18 @@ namespace Services.Catalog.Api.UnitTests
         [Fact]
         public async void AddCategory_AddsToDatabase()
         {
+            var connectionStringBuilder =
+               new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
             var dbContextGuid = Guid.NewGuid();
-            using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+            using (var context = new CatalogDbContext(options))
             {
+                await context.Database.OpenConnectionAsync();
+                await context.Database.EnsureCreatedAsync();
                 Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
                 var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 await categoryRepository.AddCategory(new Category
@@ -52,29 +72,22 @@ namespace Services.Catalog.Api.UnitTests
         }
 
         [Fact]
-        public async void AddCategory_ReturnsValidCategoryId()
-        {
-            using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
-            {
-                Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
-                var categoryRepository = new CategoryRepository(context, moqLogger.Object);
-                var categoryId = await categoryRepository.AddCategory(new Category
-                {
-                    Name = "Category1",
-                    Order = 1
-                });
-
-                await categoryRepository.SaveChanges();
-                Assert.Collection<Category>(context.Categories, c => Assert.Equal(c.CategoryId, categoryId));
-            }
-        }
-
-        [Fact]
         public async void GetCategoriesBySize_ReturnsValidData()
         {
+
+            var connectionStringBuilder =
+               new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
+
             var dbContextGuid = Guid.NewGuid();
-            using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+            using (var context = new CatalogDbContext(options))
             {
+                await context.Database.OpenConnectionAsync();
+                await context.Database.EnsureCreatedAsync();
                 await context.Categories.AddAsync(new Category { Name = "cat1", IsMiniTruck = false });
                 await context.Categories.AddAsync(new Category { Name = "cat2", IsMiniTruck = true });
                 await context.Categories.AddAsync(new Category { Name = "cat3", IsMiniTruck = true });
@@ -82,8 +95,10 @@ namespace Services.Catalog.Api.UnitTests
                 await context.SaveChangesAsync();
             }
 
-            using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+            using (var context = new CatalogDbContext(options))
             {
+               // await context.Database.OpenConnectionAsync();
+                //await context.Database.EnsureCreatedAsync();
                 Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
                 var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 var miniTrucks = await categoryRepository.GetCategoriesBySize(true);
@@ -94,8 +109,17 @@ namespace Services.Catalog.Api.UnitTests
         [Fact]
         public async void GetCategory_ReturnsNull_WithBadCategoryId()
         {
-            using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
+            var connectionStringBuilder =
+               new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
+            using (var context = new CatalogDbContext(options))
             {
+                await context.Database.OpenConnectionAsync();
+                await context.Database.EnsureCreatedAsync();
                 Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
                 var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 var category = await categoryRepository.GetCategory(int.MinValue);
@@ -106,18 +130,29 @@ namespace Services.Catalog.Api.UnitTests
         [Fact]
         public async void GetCategory_ReturnsCategory_WithValidCategoryId()
         {
-            var dbContextGuid = Guid.NewGuid();
+            var connectionStringBuilder =
+                 new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
+
             Category expected = null;
-            using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+            using (var context = new CatalogDbContext(options))
             {
+                await context.Database.OpenConnectionAsync();
+                await context.Database.EnsureCreatedAsync();
                 var entity = await context.Categories.AddAsync(
                     new Category { Name = "cat1", IsMiniTruck = false });
                 await context.SaveChangesAsync();
                 expected = entity.Entity;
             }
 
-            using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+            using (var context = new CatalogDbContext(options))
             {
+                await context.Database.OpenConnectionAsync();
+                await context.Database.EnsureCreatedAsync();
                 Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
                 var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 var actual = await categoryRepository.GetCategory(expected.CategoryId);
@@ -128,12 +163,21 @@ namespace Services.Catalog.Api.UnitTests
         [Fact]
         public async void UpdateCategory_UpdatesCategory_WithValidCategory()
         {
+            var connectionStringBuilder =
+               new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
             var dbContextGuid = Guid.NewGuid();
             Category categoryToSave = null;
             int categoryId = int.MinValue;
             string updateCategoryName = Guid.NewGuid().ToString();
-            using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+            using (var context = new CatalogDbContext(options))
             {
+                await context.Database.OpenConnectionAsync();
+                await context.Database.EnsureCreatedAsync();
                 var entity = await context.Categories.AddAsync(
                     new Category { Name = "cat1", IsMiniTruck = false });
                 await context.SaveChangesAsync();
@@ -141,8 +185,10 @@ namespace Services.Catalog.Api.UnitTests
                 categoryId = entity.Entity.CategoryId;
             }
 
-            using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+            using (var context = new CatalogDbContext(options))
             {
+                await context.Database.OpenConnectionAsync();
+                await context.Database.EnsureCreatedAsync();
                 Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
                 var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 categoryToSave = await categoryRepository.GetCategory(categoryId);
@@ -152,8 +198,10 @@ namespace Services.Catalog.Api.UnitTests
                 await context.SaveChangesAsync();
             }
 
-            using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+            using (var context = new CatalogDbContext(options))
             {
+                await context.Database.OpenConnectionAsync();
+                await context.Database.EnsureCreatedAsync();
                 Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
                 var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 var returnedCategory = await categoryRepository.GetCategory(categoryId);
@@ -164,8 +212,17 @@ namespace Services.Catalog.Api.UnitTests
         [Fact]
         public void UpdateCategory_EmptyCategory_ThrowsNullException()
         {
-            using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
+            var connectionStringBuilder =
+               new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
+            using (var context = new CatalogDbContext(options))
             {
+                  context.Database.OpenConnection();
+                  context.Database.EnsureCreated();
                 Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
                 var categoryRepository = new CategoryRepository(context, moqLogger.Object);
                 Assert.Throws<ArgumentNullException>(() => categoryRepository.UpdateCategory(null));

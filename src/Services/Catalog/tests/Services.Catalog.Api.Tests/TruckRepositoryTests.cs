@@ -12,20 +12,24 @@ using FluentAssertions;
 using System.Diagnostics;
 using Moq;
 using Microsoft.Extensions.Logging;
+using Microsoft.Data.Sqlite;
 
 namespace Services.Catalog.Api.UnitTests
 {
    public class TruckRepositoryTests
     {
-        private DbContextOptions<CatalogDbContext> GetDbContextOptions(Guid dbGuid) =>
-             new DbContextOptionsBuilder<CatalogDbContext>()
-             .UseInMemoryDatabase(dbGuid.ToString())
-             .Options;
-
+      
         [Fact]
         public async void AddTruck_EmptyTruck_ThrowsException()
         {
-             using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
+
+            using (var context = new CatalogDbContext(options))
             {
                 Mock<ILogger<TruckRepository>> moqLogger = new Mock<ILogger<TruckRepository>>();
                 var truckRepository = new TruckRepository(context, moqLogger.Object);
@@ -36,7 +40,14 @@ namespace Services.Catalog.Api.UnitTests
         [Fact]
         public async void GetTruckById_EmptyTruckId_ThrowsException()
         {
-             using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
+
+            using (var context = new CatalogDbContext(options))
             {
                 Mock<ILogger<TruckRepository>> moqLogger = new Mock<ILogger<TruckRepository>>();
                 var truckRepository = new TruckRepository(context, moqLogger.Object);
@@ -47,7 +58,14 @@ namespace Services.Catalog.Api.UnitTests
         [Fact]
         public   void UpdateTruck_EmptyTruck_ThrowsException()
         {
-             using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseSqlite(connection)
+                .Options;
+
+            using (var context = new CatalogDbContext(options))
             {
                 Mock<ILogger<TruckRepository>> moqLogger = new Mock<ILogger<TruckRepository>>();
                 var truckRepository = new TruckRepository(context, moqLogger.Object);
@@ -55,10 +73,16 @@ namespace Services.Catalog.Api.UnitTests
             }
         }
 
-//        [Fact]
+        //[Fact]
         //public async void GetTruckById_WithGoodData_ReturnsProperData()
         //{
-        //    var dbContextGuid = Guid.NewGuid();
+        //    var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+        //    var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+        //    var options = new DbContextOptionsBuilder<CatalogDbContext>()
+        //        .UseSqlite(connection)
+        //        .Options;
+        //  //  var dbContextGuid = Guid.NewGuid();
         //    var truckId = Guid.NewGuid();
         //    Category categoryToAdd = new Category
         //    {
@@ -73,29 +97,41 @@ namespace Services.Catalog.Api.UnitTests
         //        Description = "New description",
         //        Price = 10.00M,
         //        Year = DateTime.Now.Year,
-
-        //        //IsMiniTruck = false }); ; ;
+ 
         //    };
 
-        //    using (var context = new CatalogDbContext(GetDbContextOptions(Guid.NewGuid())))
+        //    using (var context = new CatalogDbContext(options))
         //    {
-        //        Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
-        //        var categoryRepository = new CategoryRepository(context, moqLogger.Object);
-        //        var categoryId= await categoryRepository.AddCategory(categoryToAdd);
-        //        await context.SaveChangesAsync();
-        //        categoryToAdd.CategoryId = categoryId;
+        //        await context.Database.OpenConnectionAsync();
+        //        await context.Database.EnsureCreatedAsync();
+        //        //Mock<ILogger<CategoryRepository>> moqLogger = new Mock<ILogger<CategoryRepository>>();
+        //        //var categoryRepository = new CategoryRepository(context, moqLogger.Object);
+        //        //await categoryRepository.AddCategory(categoryToAdd);
+
+        //        context.Categories.Add(categoryToAdd);
+        //        try
+        //        {
+        //            //  await categoryRepository.SaveChanges();
+        //            await context.SaveChangesAsync();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Debug.WriteLine(ex.Message);
+        //        }
+        //        // CHECK categoryToAdd.CategoryId ;
         //    }
 
-        //    using (var context = new CatalogDbContext(GetDbContextOptions(  dbContextGuid)))
+        //    using (var context = new CatalogDbContext(options))
         //    {
         //        Mock<ILogger<TruckRepository>> moqLogger = new Mock<ILogger<TruckRepository>>();
         //        var truckRepository = new TruckRepository(context, moqLogger.Object);
-        //        truckToAdd.Categories.Add(categoryToAdd);// = new List<Category> { categoryToAdd };
-        //          await truckRepository.AddTruck(truckToAdd);
-
+        //        truckToAdd.Categories.Add(categoryToAdd); 
+        //        await truckRepository.AddTruck(truckToAdd);
+               
         //        try
         //        {
-        //            await context.SaveChangesAsync();
+        //             await truckRepository.SaveChanges();
+        //           // await context.SaveChangesAsync();
         //        }
         //        catch (Exception ex)
         //        {
@@ -103,10 +139,11 @@ namespace Services.Catalog.Api.UnitTests
         //        }
         //    }
 
-        //    using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+        //    using (var context = new CatalogDbContext(options))
         //    {
-        //        Photo photo = new Photo { 
-        //        PhotoId = Guid.NewGuid(),
+        //        Photo photo = new Photo
+        //        {
+        //            PhotoId = Guid.NewGuid(),
         //            PhotoPath = "photo",
         //            TruckId = truckId
         //        };
@@ -121,7 +158,7 @@ namespace Services.Catalog.Api.UnitTests
         //        await context.SaveChangesAsync();
         //    }
 
-        //    using (var context = new CatalogDbContext(GetDbContextOptions(dbContextGuid)))
+        //    using (var context = new CatalogDbContext(options))
         //    {
         //        Mock<ILogger<TruckRepository>> moqLogger = new Mock<ILogger<TruckRepository>>();
         //        var truckRepository = new TruckRepository(context, moqLogger.Object);

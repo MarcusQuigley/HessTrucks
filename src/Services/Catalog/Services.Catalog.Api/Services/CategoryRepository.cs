@@ -20,15 +20,15 @@ namespace Services.Catalog.Api.Services
             _logger = logger;
         }
 
-        public async Task<int> AddCategory(Category category)
+        public async Task AddCategory(Category category)
         {
             if (category == null)
             {
                 _logger.LogError("Category to add is null");
                 throw new ArgumentNullException(nameof(category));
             }
-            var addedCategory =  await _context.Categories.AddAsync(category);
-            return addedCategory.Entity.CategoryId;
+              await _context.Categories.AddAsync(category);
+        
         }
 
         public async Task<IEnumerable<Category>> GetCategories()
