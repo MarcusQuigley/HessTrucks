@@ -11,7 +11,7 @@ namespace Services.Catalog.Api.Services
         Task<IEnumerable<Category>> GetCategories();
         Task<IEnumerable<Category>> GetCategoriesBySize(bool isMini = false);
         Task<Category> GetCategory(int categoryId);
-        Task<int> AddCategory(Category category);
+        Task AddCategory(Category category);
         void UpdateCategory(Category category);
         Task<bool> SaveChanges();
     }

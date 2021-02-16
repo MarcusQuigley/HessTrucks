@@ -38,7 +38,10 @@ namespace Services.Catalog.Api.Services
         public async Task<Truck> GetTruckById(Guid truckId)
         {
             if (truckId == Guid.Empty)
+            {
+                _logger.LogError("Truckid to query is null");
                 throw new ArgumentException(nameof(truckId));
+            }
             return await _context.Trucks.Include(t => t.Categories)
                                         .Include(t => t.Photos)
                                         .AsSplitQuery()
@@ -69,6 +72,11 @@ namespace Services.Catalog.Api.Services
 
         public void UpdateTruck(Truck truck)
         {
+            if (truck ==null)
+            {
+                _logger.LogError("Truck to update is null");
+                throw new ArgumentNullException(nameof(truck));
+            }
         }
     }
 }
