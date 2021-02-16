@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Services.Catalog.Api.Services
 {
-    interface ITruckRepository
+  public interface ITruckRepository
     {
         Task<IEnumerable<Truck>> GetTrucks();
         Task<IEnumerable<Truck>> GetTrucksByCategoryId(int categoryId);

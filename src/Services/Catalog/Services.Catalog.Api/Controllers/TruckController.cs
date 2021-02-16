@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Services.Catalog.Api.Filters;
+using Services.Catalog.Api.Models;
+using Services.Catalog.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +16,37 @@ namespace Services.Catalog.Api.Controllers
     [ApiController]
     public class TruckController : ControllerBase
     {
-        [HttpGet]
-        public Task<string> Greeting()
+        private readonly ITruckRepository _service;
+        private IMapper _mapper;
+        private readonly ILogger<TruckController> _logger;
+        public TruckController(ITruckRepository service, IMapper mapper , ILogger<TruckController> logger)
         {
-            //return new Task<string>(()=> "Hello world");
+            _service = service;
+            _mapper = mapper;
+            _logger = logger;
+        }
+        [HttpGet]
+        [TrucksFilter]
+        public async Task<ActionResult<IEnumerable<TruckDto>>> TrucksByCategory(int categoryId)
+        {
+            var trucks = await _service.GetTrucksByCategoryId(categoryId);
+            if (trucks == null)
+                return NotFound();
+            return Ok(trucks);
+        }
 
-         return   Task.FromResult("Hello world");
+        [HttpGet]
+        [Route("{truckId:Guid}")]
+        [TruckFilter]
+        public async Task<ActionResult<TruckDto>> TruckById(Guid truckId)
+        {
+            if (truckId == Guid.Empty)
+                return BadRequest();
+
+            var truck=await _service.GetTruckById(truckId);
+            if (truck == null)
+                return NotFound();
+            return Ok(truck);
         }
     }
 }

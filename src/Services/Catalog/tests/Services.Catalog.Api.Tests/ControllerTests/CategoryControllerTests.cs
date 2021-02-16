@@ -57,16 +57,15 @@ namespace Services.Catalog.Api.UnitTests
             Mock<ILogger<CategoryController>> mockLogger = new Mock<ILogger<CategoryController>>();
             mockCategoryRepository.Setup(repo => repo.GetCategories())
                                   .Returns(  Task.FromResult(SeedFakeCategories));
-            mockMapper.Setup(mapper => mapper.Map<IEnumerable<CategoryDto>>(It.IsAny<IEnumerable<Category>>()))
-                      .Returns(SeedFakeCategoryDtos);
+            //mockMapper.Setup(mapper => mapper.Map<IEnumerable<CategoryDto>>(It.IsAny<IEnumerable<Category>>()))
+            //          .Returns(SeedFakeCategoryDtos);
             var controller = new CategoryController(mockCategoryRepository.Object, mockLogger.Object, mockMapper.Object);
             var results =await controller.AllCategories();
 
             var okResult = Assert.IsType<ActionResult<IEnumerable<CategoryDto>>>(results);
-          
-             var model = (OkObjectResult) (okResult.Result);
+             var model = (OkObjectResult) okResult.Result;
 
-             Assert.Equal(3, ((IEnumerable<CategoryDto>) model.Value).Count());
+             Assert.Equal(3, ((IEnumerable<Category>) model.Value).Count());
         
         }
 

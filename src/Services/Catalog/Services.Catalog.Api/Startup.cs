@@ -39,7 +39,7 @@ namespace Services.Catalog.Api
             });
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-
+            services.AddScoped<ITruckRepository, TruckRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             //services.AddScoped<>

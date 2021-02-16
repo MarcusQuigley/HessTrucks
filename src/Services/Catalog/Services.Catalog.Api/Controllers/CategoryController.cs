@@ -34,9 +34,7 @@ namespace Services.Catalog.Api.Controllers
             var categories = await _service.GetCategories();
             if (categories == null)
                 return  NotFound();
-
-            var dtos = _mapper.Map<IEnumerable<Models.CategoryDto>>(categories);
-            return Ok(dtos);
+            return Ok(categories);
         }
     }
 }
