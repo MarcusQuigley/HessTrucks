@@ -10,14 +10,14 @@
 
 body {
     overflow-x: hidden;
-    background-image: url('../images/pattern.png');
+    /*  background-image: url('../images/pattern.png');*/
     background-repeat: repeat;
     font-family: 'Ubuntu', sans-serif;
 }
 
 nav {
-    background-color: #a593c2;
-    border-color: #a593c2;
+    background-color: #2e4f38;
+    border-color: #2e4f38;
 }
 
 #logo {
@@ -34,8 +34,8 @@ nav {
 
 .sidebar-logo {
     height: 80px;
-    background-color: #a593c2;
-    border-color: #a593c2;
+    background-color: #2e4f38;
+    border-color: #2e4f38;
     width: 240px;
 }
 
@@ -103,8 +103,8 @@ nav {
 
 .list-group-item.active, .list-group-item.active:active, .list-group-item.active:focus, .list-group-item.active:visited {
     color: white;
-    background-color: #a593c2 !important;
-    border-color: #a593c2;
+    background-color: #2e4f38 !important;
+    border-color: #2e4f38;
     font-weight: bold;
 }
 
