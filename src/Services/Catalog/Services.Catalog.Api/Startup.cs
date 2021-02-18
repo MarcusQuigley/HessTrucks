@@ -42,6 +42,11 @@ namespace Services.Catalog.Api
             services.AddScoped<ITruckRepository, TruckRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
+
             //services.AddScoped<>
             services.AddSwaggerGen(c =>
             {
@@ -64,7 +69,7 @@ namespace Services.Catalog.Api
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseCors("Open");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

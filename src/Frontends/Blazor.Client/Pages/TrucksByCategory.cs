@@ -18,14 +18,16 @@ namespace Blazor.Client.Pages
         [Inject]
         public ITruckService TruckService { get; set; }
 
+        public string DummyData { get; set; }
+
         protected async override Task OnInitializedAsync()
         {
 
             CategoryId = 1;
-            Trucks = await TruckService.GetTrucksByCategoryId(CategoryId);
+            Trucks = await TruckService.GetTrucksByCategoryIdOld(CategoryId);
             if (Trucks == null)
                 Trucks = await FakeData();
-
+        
         }
 
         async Task<IEnumerable<TruckDto>> FakeData()
@@ -38,16 +40,6 @@ namespace Blazor.Client.Pages
                 new TruckDto { Name = "T3", Description = " t3 desc" },
             };
           });
-        }
-
-         IEnumerable<TruckDto> FakeData2()
-        {
-                return new List<TruckDto> {
-                new TruckDto { Name = "T1", Description = " t1 desc", TruckId = Guid.NewGuid() },
-                new TruckDto { Name = "T2", Description = " t2 desc", TruckId = Guid.NewGuid() },
-                new TruckDto { Name = "T3", Description = " t3 desc", TruckId = Guid.NewGuid() },
-            };
-      
-        }
+        } 
     }
 }
