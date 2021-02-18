@@ -26,9 +26,11 @@ namespace Services.Catalog.Api.Controllers
             _logger = logger;
         }
         [HttpGet]
+        [Route("{categoryId:int}")]
         [TrucksFilter]
         public async Task<ActionResult<IEnumerable<TruckDto>>> TrucksByCategory(int categoryId)
         {
+            _logger.LogInformation("TrucksByCategory being called!!");
             var trucks = await _service.GetTrucksByCategoryId(categoryId);
             if (trucks == null)
                 return NotFound();

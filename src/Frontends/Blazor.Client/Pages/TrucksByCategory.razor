@@ -1,0 +1,29 @@
+﻿@page "/trucksbycategory"
+<h1 class="page-title">Trucks by decade </h1>
+@if (Trucks == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<table class="table">
+    <tbody>
+        @foreach (var truck in this.Trucks)
+        {
+        <tr>
+            <td>@truck.Name</td>
+            <td>@truck.Description</td>
+            <td><img src="@truck.DefaultPhotoPath "/></td>
+            <td>
+                <a href="@($"truckdetail/{truck.TruckId}")" class="btn btn-primary table-btn">
+                    <i class="fas fa-info-circle"></i>
+                </a>
+               
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+
+ 
