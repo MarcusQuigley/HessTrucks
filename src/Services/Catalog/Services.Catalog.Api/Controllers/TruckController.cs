@@ -26,6 +26,7 @@ namespace Services.Catalog.Api.Controllers
             _logger = logger;
         }
         [HttpGet]
+        [Route("{categoryId:int}")]
         [TrucksFilter]
         public async Task<ActionResult<IEnumerable<TruckDto>>> TrucksByCategory(int categoryId)
         {

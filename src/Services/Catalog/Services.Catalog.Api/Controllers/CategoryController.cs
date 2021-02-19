@@ -36,5 +36,16 @@ namespace Services.Catalog.Api.Controllers
                 return  NotFound();
             return Ok(categories);
         }
+
+        [HttpGet]
+        [Route("{isMini:bool}")]
+        [CategoriesFilter]
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> CategoriesBySize(bool isMini)
+        {
+            var categories = await _service.GetCategoriesBySize(isMini);
+            if (categories == null)
+                return NotFound();
+            return Ok(categories);
+        }
     }
 }
