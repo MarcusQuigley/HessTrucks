@@ -24,6 +24,7 @@ namespace Blazor.Client
 
      
             builder.Services.AddHttpClient<ITruckService, TruckService>(client => client.BaseAddress = new Uri("https://localhost:7601/"));
+            builder.Services.AddHttpClient<ICategoryService, CategoryService>(client => client.BaseAddress = new Uri("https://localhost:7601/"));
             //builder.Services.AddHttpClient<ITruckService, TruckService>("TrucksClient", config =>
             //{
             //    config.BaseAddress = new Uri("https://localhost:7601/");

@@ -30,7 +30,7 @@ namespace Blazor.Client.Services
 
         public async Task<IEnumerable<TruckDto>> GetTrucksByCategoryId(int categoryId)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/trucks/{categoryId}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"api/trucks/{categoryId}");
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             try
@@ -52,7 +52,7 @@ namespace Blazor.Client.Services
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                Debug.WriteLine(ex.Message);
             }
             return null;
         }

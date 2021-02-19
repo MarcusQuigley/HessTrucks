@@ -14,32 +14,38 @@ namespace Blazor.Client.Pages
         public IEnumerable<TruckDto> Trucks { get; set; }
         
         [Parameter]
-        public int CategoryId { get; set; }
+        public string CategoryId { get; set; }
+        public string Message { get; set; }
         [Inject]
         public ITruckService TruckService { get; set; }
 
-        public string DummyData { get; set; }
-
-        protected async override Task OnInitializedAsync()
+        //protected async override Task OnInitializedAsync()
+        //{
+          
+          
+ 
+        //}
+        protected override async Task OnParametersSetAsync()
         {
+            Message = null;
+            Trucks = await TruckService.GetTrucksByCategoryId(int.Parse(CategoryId));
 
-            CategoryId = 1;
-            Trucks = await TruckService.GetTrucksByCategoryIdOld(CategoryId);
-            if (Trucks == null)
-                Trucks = await FakeData();
-        
+            if (Trucks == null || !Trucks.Any())
+            {// Trucks = await FakeData();
+                Message = "No trucks returned";
+            }
+
         }
 
         async Task<IEnumerable<TruckDto>> FakeData()
         { 
-
-        return await  Task.Run<List<TruckDto>>(()=> { 
-          return   new List<TruckDto> {
-                new TruckDto { Name = "T1", Description = " t1 desc" },
-                new TruckDto { Name = "T2", Description = " t2 desc" },
-                new TruckDto { Name = "T3", Description = " t3 desc" },
-            };
-          });
+         return await  Task.Run<List<TruckDto>>(()=> { 
+              return   new List<TruckDto> {
+                    new TruckDto { Name = "T1", Description = " t1 desc" },
+                    new TruckDto { Name = "T2", Description = " t2 desc" },
+                    new TruckDto { Name = "T3", Description = " t3 desc" },
+                };
+            });
         } 
     }
 }
