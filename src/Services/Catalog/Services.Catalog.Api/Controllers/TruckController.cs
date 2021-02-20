@@ -49,5 +49,19 @@ namespace Services.Catalog.Api.Controllers
                 return NotFound();
             return Ok(truck);
         }
+
+        [HttpPut]
+        [TruckFilter]
+        public async Task<ActionResult<TruckDto>> UpdateTruck([FromBody] TruckDto truckDto)
+        {
+            if (truckDto == null)
+                return BadRequest();
+            var truck = _mapper.Map<Entities.Truck>(truckDto);
+            //_service.UpdateTruck(truck);
+            if (await _service.UpdateTruck(truck))
+                return Ok();
+            else
+                return BadRequest();
+        }
     }
 }

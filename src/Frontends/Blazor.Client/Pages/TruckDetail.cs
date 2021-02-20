@@ -20,9 +20,10 @@ namespace Blazor.Client.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            //if(TruckId!=Guid.Empty)
-            //    //    Truck = await TruckService.GetTruckById(TruckId);
-            Truck = await FakeDataAsync();
+            if (TruckId != Guid.Empty)
+                Truck = await TruckService.GetTruckById(TruckId);
+            else
+                Truck = await FakeDataAsync();
             //   return base.OnInitializedAsync();
         }
 

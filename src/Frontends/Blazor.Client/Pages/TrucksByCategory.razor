@@ -16,17 +16,24 @@ else
             <tbody>
                 @foreach (var truck in this.Trucks)
                 {
-                    <tr>
-                        <td>@truck.Name</td>
-                        <td>@truck.Description</td>
-                        <td><img src="@truck.DefaultPhotoPath " /></td>
-                        <td>
-                            <a href="@($"truckdetail/{truck.TruckId}")" class="btn btn-primary table-btn">
-                                <i class="fas fa-info-circle"></i>
-                            </a>
+                <tr>
+                    <td>@truck.Name</td>
+                    <td>@truck.Description</td>
+                    <td><img src="@truck.DefaultPhotoPath " /></td>
+                    <td>
+                        <a href="@($"truckdetail/{truck.TruckId}")" class="btn btn-primary table-btn">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
 
-                        </td>
-                    </tr>
+                    </td>
+                    <td>
+                        <a href="@($"truckedit/{truck.TruckId}")" class="btn btn-primary table-btn">
+                            @*<i class="fas fa-file-edit"></i>*@
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

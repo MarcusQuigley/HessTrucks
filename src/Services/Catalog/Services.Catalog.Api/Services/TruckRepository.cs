@@ -70,13 +70,31 @@ namespace Services.Catalog.Api.Services
             return await _context.SaveChangesAsync() >= 0;
         }
 
-        public void UpdateTruck(Truck truck)
+        public async Task<bool> UpdateTruck(Truck truck)
         {
             if (truck ==null)
             {
                 _logger.LogError("Truck to update is null");
                 throw new ArgumentNullException(nameof(truck));
             }
+
+            var truckToUpdate =await _context.Trucks.SingleOrDefaultAsync(t => t.TruckId == truck.TruckId);
+            if (truckToUpdate == null)
+            {
+                _logger.LogError("Truck to update doesnt exist in the db");
+                throw new ArgumentNullException(nameof(truck));
+            }
+            truckToUpdate.Damaged = truck.Damaged;
+            truckToUpdate.DefaultPhotoPath = truck.DefaultPhotoPath;
+            truckToUpdate.Description = truck.Description;
+            truckToUpdate.Hidden = truck.Damaged;
+            truckToUpdate.Name = truck.Name;
+            truckToUpdate.PreviousPrice = truck.PreviousPrice;
+            truckToUpdate.Price = truck.Price;
+            truckToUpdate.Quantity = truck.Quantity;
+            truckToUpdate.Year = truck.Year;
+
+           return   await SaveChanges();
         }
     }
 }
