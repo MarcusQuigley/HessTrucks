@@ -1,4 +1,5 @@
-﻿using Blazor.Client.Models;
+﻿using Blazor.Client.Components;
+using Blazor.Client.Models;
 using Blazor.Client.Services;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -18,13 +19,17 @@ namespace Blazor.Client.Pages
         public string Message { get; set; }
         [Inject]
         public ITruckService TruckService { get; set; }
-
-        //protected async override Task OnInitializedAsync()
-        //{
-          
-          
  
-        //}
+
+        public TruckDetail TruckDetailComponent { get; set; }
+
+       
+
+        protected async Task ShowTruckDetails(Guid truckId)
+        {
+          await  TruckDetailComponent.ShowDetails(truckId);
+        }
+
         protected override async Task OnParametersSetAsync()
         {
             Message = null;
