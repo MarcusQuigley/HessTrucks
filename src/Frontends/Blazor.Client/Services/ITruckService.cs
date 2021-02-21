@@ -12,7 +12,7 @@ namespace Blazor.Client.Services
         Task<IEnumerable<TruckDto>> GetTrucksByCategoryId(int categoryId);
         Task<TruckDto> GetTruckById(Guid truckId);
         //Task AddTruck(Truck truck);
-        //void UpdateTruck(Truck truck);
+        Task<bool> UpdateTruck(TruckDto truck);
         //Task<bool> SaveChanges();
     }
 }

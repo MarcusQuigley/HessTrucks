@@ -12,24 +12,39 @@ else
     }
     else
     {
-        <table class="table">
-            <tbody>
-                @foreach (var truck in this.Trucks)
-                {
-                    <tr>
-                        <td>@truck.Name</td>
-                        <td>@truck.Description</td>
-                        <td><img src="@truck.DefaultPhotoPath " /></td>
-                        <td>
-                            <a href="@($"truckdetail/{truck.TruckId}")" class="btn btn-primary table-btn">
-                                <i class="fas fa-info-circle"></i>
-                            </a>
+<table class="table">
 
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    @foreach (var truck in this.Trucks)
+    {
+        <td>
+        <tr>
+            <div class="col-12 row">
+                <div class="col-8">
+                    <a>
+                        <img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/2.jpg")" 
+                             @onclick="() => ShowTruckDetails(truck.TruckId)" 
+                             class="img-fluid employee-detail-img"
+                        
+                             />
+                    </a>
+                </div>
+            </div>
+        </tr>
+        <tr>
+            <td >@truck.Name</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="@($" truckedit /{truck.TruckId}")" class="btn btn-primary table-btn">
+
+                    <i class="fas fa-edit"></i>
+                </a>
+            </td>
+        </tr>
+        </td>
     }
-}
+</table>
+    }
+} 
+<TruckDetail @ref="TruckDetailComponent"></TruckDetail>
 

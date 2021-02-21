@@ -69,7 +69,7 @@ namespace Services.Catalog.Api.UnitTests
             {
                 Mock<ILogger<TruckRepository>> moqLogger = new Mock<ILogger<TruckRepository>>();
                 var truckRepository = new TruckRepository(context, moqLogger.Object);
-                Assert.Throws<ArgumentNullException>(  () => truckRepository.UpdateTruck(null));
+                Assert.ThrowsAsync<ArgumentNullException>(  () => truckRepository.UpdateTruck(null));
             }
         }
 

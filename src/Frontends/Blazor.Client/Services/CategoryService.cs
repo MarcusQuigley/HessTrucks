@@ -1,4 +1,5 @@
-﻿using Blazor.Client.Models;
+﻿using Blazor.Client.Extensions;
+using Blazor.Client.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,17 +27,7 @@ namespace Blazor.Client.Services
 
             using (var response =await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead))
             {
-                response.EnsureSuccessStatusCode();
-                var stream = await response.Content.ReadAsStreamAsync();
-                using(var streamReader = new StreamReader(stream))
-                {
-                    using (var jsonReader  = new JsonTextReader(streamReader))
-                    {
-                        var serializer = new JsonSerializer();
-                        var categories =  serializer.Deserialize<IEnumerable<CategoryDto>>(jsonReader);
-                        return categories;
-                    }
-                }
+                return await response.DeserializeStreamAsJson<IEnumerable<CategoryDto>>();
             }
         }
 
