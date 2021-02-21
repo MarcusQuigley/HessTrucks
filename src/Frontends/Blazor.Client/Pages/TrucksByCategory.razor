@@ -12,47 +12,38 @@ else
     }
     else
     {
-        <table class="table">
-            <tbody>
-                @foreach (var truck in this.Trucks)
-                {
-                <tr>
-                    <td>@truck.Name</td>
-                    <td>@truck.Description</td>
-                    <td><img src="@truck.DefaultPhotoPath" /></td>
-                    @*<td>
-            <div class="col-2">
-                <img class="img-responsive circle account-photo" src="images/ToyTrucks.jpg" />
+<table class="table">
+
+    @foreach (var truck in this.Trucks)
+    {
+        <td>
+        <tr>
+            <div class="col-12 row">
+                <div class="col-8">
+                    <a>
+                        <img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/2.jpg")" 
+                             @onclick="() => ShowTruckDetails(truck.TruckId)" 
+                             class="img-fluid employee-detail-img"
+                        
+                             />
+                    </a>
+                </div>
             </div>
-        </td>*@
-                     
-                    <td>
-                        <div class="col-12 row">
-                            <div class="col-8">
-                                <a>
-                                    <img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/2.jpg")" @onclick="() => ShowTruckDetails(truck.TruckId)" class="img-fluid employee-detail-img" />
-                                </a>
-                            </div>
-                        </div>
-                    </td>
+        </tr>
+        <tr>
+            <td >@truck.Name</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="@($" truckedit /{truck.TruckId}")" class="btn btn-primary table-btn">
 
-                    @*<td>
-                        <a href="@($" truckdetail /{truck.TruckId}")" class="btn btn-primary table-btn">
-                            <i class="fas fa-info-circle"></i>
-                        </a>
-
-                    </td>*@
-                    <td>
-                        <a href="@($" truckedit /{truck.TruckId}")" class="btn btn-primary table-btn">
-                            @*<i class="fas fa-file-edit"></i>*@
-                            <i class="fas fa-edit"></i>
-                        </a>
-
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
+                    <i class="fas fa-edit"></i>
+                </a>
+            </td>
+        </tr>
+        </td>
+    }
+</table>
     }
 } 
 <TruckDetail @ref="TruckDetailComponent"></TruckDetail>
