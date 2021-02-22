@@ -51,6 +51,10 @@ namespace Services.Catalog.Api.DbContexts
               .Property(t => t.IsMiniTruck)
               .HasDefaultValue(false);
 
+            modelBuilder.Entity<Photo>()
+              .Property(t => t.PhotoId)
+              .HasDefaultValueSql("NewID()");
+
             //    .HasMany(t => t.Photos)
             //    .WithOne(prop => prop.Truck)
             //    .IsRequired();
