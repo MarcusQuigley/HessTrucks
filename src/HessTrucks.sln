@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Client", "Frontends\Blazor.Client\Blazor.Client.csproj", "{36740A3E-108F-4E52-871F-E32327C5412E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.App", "Frontends\Blazor.App\Blazor.App.csproj", "{36740A3E-108F-4E52-871F-E32327C5412E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F7A0E8C1-64D5-4EC3-A887-FC7F18A45021} = {F7A0E8C1-64D5-4EC3-A887-FC7F18A45021}
 	EndProjectSection

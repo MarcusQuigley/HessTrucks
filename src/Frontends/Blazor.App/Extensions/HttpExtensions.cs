@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Blazor.Client.Extensions
+namespace Blazor.App.Extensions
 {
     public static class HttpExtensions
     {

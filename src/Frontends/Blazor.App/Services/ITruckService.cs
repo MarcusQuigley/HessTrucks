@@ -1,10 +1,10 @@
-﻿using Blazor.Client.Models;
+﻿using Blazor.App.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blazor.Client.Services
+namespace Blazor.App.Services
 {
   public interface ITruckService
     {

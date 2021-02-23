@@ -1,12 +1,12 @@
-﻿using Blazor.Client.Models;
-using Blazor.Client.Services;
+﻿using Blazor.App.Models;
+using Blazor.App.Services;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blazor.Client.Shared
+namespace Blazor.App.Shared
 {
     public partial class NavMenu
     {

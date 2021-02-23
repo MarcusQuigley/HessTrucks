@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Blazor.Client.Services;
+using Blazor.App.Services;
 using System.Diagnostics;
 
-namespace Blazor.Client
+namespace Blazor.App
 {
     public class Program
     {

@@ -1,5 +1,5 @@
-﻿using Blazor.Client.Extensions;
-using Blazor.Client.Models;
+﻿using Blazor.App.Extensions;
+using Blazor.App.Models;
 //using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Blazor.Client.Services
+namespace Blazor.App.Services
 {
     public class TruckService : ITruckService
     {

@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Blazor.App</AssemblyName>
+    <RootNamespace>Blazor.App</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
