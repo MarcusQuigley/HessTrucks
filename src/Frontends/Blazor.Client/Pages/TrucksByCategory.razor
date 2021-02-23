@@ -1,50 +1,49 @@
 ﻿@page "/trucksbycategory/{CategoryId}"
+ 
 <h1 class="page-title">Trucks by decade </h1>
+<style >
+    .maxxywidth {
+        max-width: 250px;
+        border: 0;
+    }
+</style>
 @if (Message != null)
 {
     <p><em>@Message</em></p>
 }
 else
-{
+{ 
     @if (Trucks == null)
     {
         <p><em>Loading...</em></p>
     }
     else
     {
-<table class="table">
+      
+        <ul class="list-group list-group-horizontal">
+            @foreach (var truck in this.Trucks)
+            {
+                <li class="list-group-item flex-fill border-0" style="width:250px">
+                    <ul class="list-group">
+                        <li class="list-group-item flex-fill maxxywidth">
+                            <div class="link-image">
+                                <a>
+                                    <img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/2.jpg")"
+                                         @onclick="() => ShowTruckDetails(truck.TruckId)"
+                                         class="img-fluid employee-detail-img" />
+                                </a>
+                            </div>
+                        </li>
+                        <li class="list-group-item flex-fill maxxywidth">@truck.Name</li>
+                        <li class="list-group-item flex-fill maxxywidth">@truck.Price</li>
+                    </ul>
 
-    @foreach (var truck in this.Trucks)
-    {
-        <td>
-        <tr>
-            <div class="col-12 row">
-                <div class="col-8">
-                    <a>
-                        <img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/2.jpg")" 
-                             @onclick="() => ShowTruckDetails(truck.TruckId)" 
-                             class="img-fluid employee-detail-img"
-                        
-                             />
-                    </a>
-                </div>
-            </div>
-        </tr>
-        <tr>
-            <td >@truck.Name</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="@($" truckedit /{truck.TruckId}")" class="btn btn-primary table-btn">
-
-                    <i class="fas fa-edit"></i>
-                </a>
-            </td>
-        </tr>
-        </td>
+                </li>
+            }
+        </ul>
     }
-</table>
-    }
-} 
+}
 <TruckDetail @ref="TruckDetailComponent"></TruckDetail>
+
+
 

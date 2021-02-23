@@ -17,8 +17,8 @@ body {
 /*img:hover{
     cursor:pointer;
 }*/
- 
-.col-8 img.img-fluid:hover {
+
+.link-image img.img-fluid:hover {
     cursor: pointer;
 }
  
@@ -236,3 +236,8 @@ nav {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+}
