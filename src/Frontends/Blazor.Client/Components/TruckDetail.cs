@@ -22,9 +22,8 @@ namespace Blazor.Client.Components
         public async Task ShowDetails(Guid truckId)
         {
             ShowComponent = true;
-            StateHasChanged();
-
             Truck = await TruckService.GetTruckById(truckId);
+            StateHasChanged();           
         }
  
         public void Close()
