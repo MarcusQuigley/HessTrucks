@@ -14,7 +14,7 @@ namespace Services.Catalog.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
@@ -23,17 +23,17 @@ namespace Services.Catalog.Api
             //    var services = scope.ServiceProvider;
             //    try
             //    {
-                    
+
             //        var context = services.GetRequiredService<CatalogDbContext>();
-            //         context.Database.EnsureCreated();
-            //        SeedData.Initialize(services);
+            //        context.Database.EnsureCreated();
+            //        await SeedData.Initialize(services);
             //    }
             //    catch (Exception ex)
             //    {
             //        var logger = services.GetRequiredService<ILogger<Program>>();
             //        logger.LogError(ex, "An error occurred seeding the DB.");
             //    }
-        
+
             //}
 
             host.Run();

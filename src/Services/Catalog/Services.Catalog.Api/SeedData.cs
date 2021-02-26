@@ -15,17 +15,17 @@ namespace Services.Catalog.Api
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
 
-            //using (var dbContext = new CatalogDbContext(
-            //    serviceProvider.GetRequiredService<DbContextOptions<CatalogDbContext>>()))
-            //{
-            //    if (dbContext.Trucks.Any())
-            //    {
-            //        return;   // DB has been seeded
-            //    }
+            using (var dbContext = new CatalogDbContext(
+                serviceProvider.GetRequiredService<DbContextOptions<CatalogDbContext>>()))
+            {
+                if (dbContext.Trucks.Any())
+                {
+                    return;   // DB has been seeded
+                }
 
-            //  await  PopulateTestData(dbContext);
+                await PopulateTestData(dbContext);
 
-            //}
+            }
         }
 
         private static async Task PopulateTestData(CatalogDbContext dbContext)
