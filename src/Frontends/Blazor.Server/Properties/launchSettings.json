@@ -3,27 +3,26 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:11593",
-      "sslPort": 44316
+      "applicationUrl": "http://localhost:62415",
+      "sslPort": 44391
     }
   },
-  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchUrl": "swagger",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Services.Catalog.Api": {
+    "Blazor.Server": {
       "commandName": "Project",
-      "launchUrl": "swagger",
+      //"dotnetRunMessages": "true",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:7601;http://localhost:7600"
+      }
     }
   }
 }

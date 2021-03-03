@@ -24,7 +24,7 @@ namespace Services.Catalog.Api.UnitTests
         {
             var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
             var connection = new SqliteConnection(connectionStringBuilder.ToString());
-
+            connection.CreateFunction("NewId", () => Guid.NewGuid());
             var options = new DbContextOptionsBuilder<CatalogDbContext>()
                 .UseSqlite(connection)
                 .Options;

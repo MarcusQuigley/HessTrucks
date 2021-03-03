@@ -1,3 +1,4 @@
+using Blazor.App.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,8 +8,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Blazor.Client.Services;
-using System.Diagnostics;
 
 namespace Blazor.Client
 {
@@ -20,9 +19,9 @@ namespace Blazor.Client
             await DelayClient();
 #endif
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+            builder.RootComponents.Add<Blazor.App.App>("app");
 
-     
+
             builder.Services.AddHttpClient<ITruckService, TruckService>(client => client.BaseAddress = new Uri("https://localhost:7601/"));
             builder.Services.AddHttpClient<ICategoryService, CategoryService>(client => client.BaseAddress = new Uri("https://localhost:7601/"));
             //builder.Services.AddHttpClient<ITruckService, TruckService>("TrucksClient", config =>
@@ -38,8 +37,8 @@ namespace Blazor.Client
         static async Task DelayClient()
         {
             //delay to wait for the debugging proxy to start up
-             await Task.Delay(1900);
-         
+            await Task.Delay(1900);
+
         }
     }
 }
