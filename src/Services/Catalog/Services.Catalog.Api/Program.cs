@@ -9,34 +9,19 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Services.Catalog.Api.DbContexts;
+using Services.Catalog.Api.Extensions;
 
 namespace Services.Catalog.Api
 {
     public class Program
     {
-        public async static Task Main(string[] args)
+        public   static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-
-            //using (var scope = host.Services.CreateScope())
-            //{
-            //    var services = scope.ServiceProvider;
-            //    try
-            //    {
-
-            //        var context = services.GetRequiredService<CatalogDbContext>();
-            //        context.Database.EnsureCreated();
-            //        await SeedData.Initialize(services);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        var logger = services.GetRequiredService<ILogger<Program>>();
-            //        logger.LogError(ex, "An error occurred seeding the DB.");
-            //    }
-
-            //}
-
-            host.Run();
+            CreateHostBuilder(args)
+                 .Build()
+                 .MigrateAndSeedDatabase<CatalogDbContext>(retries: 3)
+                 //.SeedDatabase<CatalogDbContext>()
+                 .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

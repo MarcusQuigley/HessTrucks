@@ -33,10 +33,23 @@ namespace Services.Catalog.Api
         {
             services.AddControllers();
 
-            services.AddDbContext<CatalogDbContext>(options => {
-                options.UseSqlServer(Configuration.GetConnectionString("TruckDBConnectionString"))
-                        .EnableSensitiveDataLogging();
-            });
+            //docker run -e POSTGRES_DB=hess_catalog_db -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5432 --name postgres_catalog -d postgres
+            //docker exec -it 480c32e2bb53 "bash" //where 480c3.. is the container id
+            //psql -h localhost -p 5432 -U postgres -d hess_catalog_db_thursday -W
+
+            var server = Configuration["POSTGRES_SERVER"] ?? "localhost";
+            var port = Configuration["POSTGRES_PORT"] ?? "5432";
+            var database = Configuration["POSTGRES_DB"] ?? "hess_catalog_db_thursday";
+            var user = Configuration["POSTGRES_USER"] ?? "postgres";
+            var password = Configuration["POSTGRES_PASSWORD"] ?? "password";
+
+            var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
+
+            //"User ID =postgres;Password=password;Server=localhost;Port=5432;Database=testDb;Integrated Security=true;Pooling=true;" //alternative
+            services.AddDbContext<CatalogDbContext>(options =>
+                options.UseNpgsql(connectionString)
+                       .UseSnakeCaseNamingConvention()
+                    );
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ITruckRepository, TruckRepository>();

@@ -63,7 +63,7 @@ namespace Services.Catalog.Api.UnitTests
                 await categoryRepository.AddCategory(new Category
                 {
                     Name = "Category1",
-                    Order = 1
+                    CategoryOrder = 1
                 });
 
                 await categoryRepository.SaveChanges();

@@ -10,7 +10,7 @@ namespace Services.Catalog.Api.Models
         public int CategoryId { get; set; }
         public string Name { get; set; }
         public bool IsMiniTruck { get; set; }
-        public int Order { get; set; }
+        public int CategoryOrder { get; set; }
       //  public virtual ICollection<TruckDto> Trucks { get; set; }
     }
 }
