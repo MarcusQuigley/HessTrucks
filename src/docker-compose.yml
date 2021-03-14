@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  post_gres_db:
+    container_name: db_catalog_hess
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+  services.catalog.api:
+    #container_name: api_catalog_hess
+    image: ${DOCKER_REGISTRY-}servicescatalogapi
+    build:
+      context: .
+      dockerfile: Services/Catalog/Services.Catalog.Api/Dockerfile
+    depends_on:
+      - post_gres_db
+
+  #webapplication1:
+  #  image: ${DOCKER_REGISTRY-}webapplication1
+  #  build:
+  #    context: .
+  #    dockerfile: Frontends/WebApplication1/Dockerfile
+
+
+  blazor.server:
+    image: ${DOCKER_REGISTRY-}blazorserver
+    build:
+      context: .
+      dockerfile: Frontends/Blazor.Server/Dockerfile
+    depends_on:
+      - post_gres_db
+      - services.catalog.api
