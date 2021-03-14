@@ -21,46 +21,45 @@ namespace Services.Catalog.Api.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (var property in modelBuilder.Model.GetEntityTypes()
-                      .SelectMany(t => t.GetProperties())
-                      .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
-            {
-                property.SetColumnType("decimal(18,2)");
-            }
             modelBuilder.Entity<Truck>()
-                .Property(t => t.TruckId)
-                .HasDefaultValueSql("NewID()");
+               .Property(t => t.TruckId)
+               .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder.Entity<Truck>()
-              .Property(t => t.Name)
-              .IsRequired();
+                .Property(t => t.Name)
+                .IsRequired();
             modelBuilder.Entity<Truck>()
-              .Property(t => t.Description)
-              .IsRequired();
+                .Property(t => t.Description)
+                .IsRequired();
             modelBuilder.Entity<Truck>()
                 .Property(t => t.Damaged)
-                .HasDefaultValue(false);
+                .HasDefaultValue(false)
+                .ValueGeneratedOnAdd();
             modelBuilder.Entity<Truck>()
-               .Property(t => t.Hidden)
-               .HasDefaultValue(false);
+                .Property(t => t.Hidden)
+                .HasDefaultValue(false)
+                .ValueGeneratedOnAdd();
             modelBuilder.Entity<Truck>()
-              .Property(t => t.Quantity)
-              .HasDefaultValue(1);
+                .Property(t => t.Quantity)
+                .HasDefaultValue(1)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<Truck>()
+                .Property(t => t.Price)
+                .HasPrecision(18, 2);
+            modelBuilder.Entity<Truck>()
+                .Property(t => t.PreviousPrice)
+                .HasPrecision(18, 2);
 
 
             modelBuilder.Entity<Category>()
-              .Property(t => t.IsMiniTruck)
-              .HasDefaultValue(false);
+               .Property(t => t.IsMiniTruck)
+               .HasDefaultValue(false);
+            // .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Photo>()
-              .Property(t => t.PhotoId)
-              .HasDefaultValueSql("NewID()");
+             .Property(t => t.PhotoId)
+             .HasDefaultValueSql("gen_random_uuid()");
 
-            //    .HasMany(t => t.Photos)
-            //    .WithOne(prop => prop.Truck)
-            //    .IsRequired();
-
-            //modelBuilder.Entity<TruckCategory>()
-            //    .HasKey(tc => new { tc.TruckId, tc.CategoryId });
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
