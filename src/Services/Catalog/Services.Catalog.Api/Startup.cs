@@ -65,6 +65,7 @@ namespace Services.Catalog.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Services.Catalog.Api", Version = "v1" });
             });
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,16 +76,14 @@ namespace Services.Catalog.Api
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Services.Catalog.Api v1"));
-            }
-
-            app.UseHttpsRedirection();
-
+            } 
             app.UseRouting();
 
             app.UseAuthorization();
             app.UseCors("Open");
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("health/live");
                 endpoints.MapControllers();
             });
             logger.LogInformation("Pipeline setup at {0}", DateTime.Now);
